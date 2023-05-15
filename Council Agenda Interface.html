@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Council Agenda</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: left;
+			padding: 8px;
+		}
+
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+
+		.actions {
+			width: 10%;
+			text-align: center;
+		}
+
+		.assign-btn {
+			background-color: #4CAF50;
+			border: none;
+			color: white;
+			padding: 8px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 14px;
+			margin: 4px 2px;
+			cursor: pointer;
+		}
+
+		.assign-btn:hover {
+			background-color: #555555;
+		}
+	</style>
+</head>
+<body>
+  <script>
+function parseCSV(csv) {
+  // Split the CSV file into rows
+  var rows = csv.split('\n');
+
+  // Remove the header row and split each row into columns
+  var data = rows.slice(1).map(function(row) {
+    return row.split(',');
+  });
+
+  return data;
+}
+
+function loadCSV(url) {
+  // Create a new XMLHttpRequest object
+  var xhr = new XMLHttpRequest();
+
+  // Set up a callback function to be called when the file is loaded
+  xhr.onload = function() {
+    // Parse the CSV file
+    var data = parseCSV(xhr.responseText);
+
+    // Display the data in a table
+    displayData(data);
+  };
+
+  // Open the file for reading
+  xhr.open('GET', url);
+
+  // Send the request
+  xhr.send();
+}
+
+function displayData(data) {
+  // Get the table element
+  var table = document.getElementById('table');
+
+  // Clear the table
+  table.innerHTML = '';
+
+  // Create a header row
+  var header = table.createTHead().insertRow();
+
+  // Add the "Actions" column header
+  header.insertCell().textContent = 'Actions';
+
+  // Add the remaining column headers
+  header.insertCell().textContent = 'File';
+  header.insertCell().textContent = 'Type';
+  header.insertCell().textContent = 'Title';
+
+  // Create a body
+  var body = table.createTBody();
+
+  // Add a row for each data item
+  data.forEach(function(item) {
+    // Create a new row
+    var row = body.insertRow();
+
+    // Add the "Assign to WebKeys" button in the first column
+    var buttonCell = row.insertCell();
+    var button = document.createElement('button');
+    button.textContent = 'Assign to WebKeys';
+    button.addEventListener('click', function() {
+      chrome.runtime.sendMessage({type: "sendText", data: item});
+    });
+    buttonCell.appendChild(button);
+
+    // Add the remaining columns
+    row.insertCell().textContent = item[0];
+    row.insertCell().textContent = item[1];
+    row.insertCell().textContent = item[2];
+  });
+}
+
+// Load the CSV file
+loadCSV('http://localhost:8000/councilagenda.csv');
+  
+    </script>
+  </body>
+</html>

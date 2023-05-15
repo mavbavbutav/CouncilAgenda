@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>COUNCIL PTZ PRESETS</title>
+    <style>
+ /* Style the buttons */
+.header {
+  text-align: center;
+  padding: 0px;
+  color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+    .button {
+     background-color: #4CAF50;
+     border: none;
+      color: white;
+      padding: 65px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+}
+    /* Style the grid */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-gap: 10px;
+      padding: 10px;
+    }
+.cell-container {
+  display: flex;
+  flex-direction: column;
+}
+
+ .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 auto;
+    }
+.button-half {
+  height: 100%;
+  cursor: pointer;
+}
+
+.button-half:hover {
+}
+
+.button-label {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}
+
+.button-left {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.button-right {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+  </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="cell-container" style="background-image: url('file:///C:/IntraWebSite/Council%20Pictures/d35_rosenberg_dave.jpg'); background-repeat: no-repeat; background-size: background-size: 60% 60%; background-position: center;">
+        <div class="header">
+          <h2>35 - Rosenberg</h2>
+        </div>
+        <div class="button-container"> <button class="button-half button-left"
+
+            onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/8')">
+            <div class="button-label">CAM 3</div>
+          </button> <button class="button-half button-right" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/5/8')">
+            <div class="button-label">CAM 4</div>
+          </button> </div>
+      </div>
+      <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/7')">34
+        - Henderson</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/6')">33
+        - Lee</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/5')">32
+        - Styles</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/4')">31
+        - Rutherford</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/3')">30
+        - Sepulveda</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/2')">29
+        - Porterfield</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/32')">28
+        - Vercher</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/31')">27
+        - Nash</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/30')">26
+        - Johnston</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/29')">25
+        - Pulley</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/28')">24
+        - Murphy</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/27')">23
+        - Druffel</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/26')">22
+        - Hauser</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/24')">21
+        - Taylor</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/23')">20
+        - Roberts</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/22')">19
+        - O'Connell</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/21')">18
+        - Cash</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/20')">17
+        - Sledge</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/19')">16
+        - Welsch</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/18')">15
+        - Syracuse</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/16')">14
+        - Rhoten</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/15')">13
+        - Branford</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/14')">12
+        - Evans</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/13')">11
+        - Hagar</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/12')">10
+        - Young</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/11')">9
+        - Hancock</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/10')">8
+        - VanReece</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/8')">7
+        - Benedict</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/7')">6
+        - Withers</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/6')">5
+        - Parker</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/5')">4
+        - Swope</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/4')">3
+        - Gamble</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/3')">2
+        - Toombs</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/2/2')">1
+        - Hall</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/14')">40
+        - Suara</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/13')">39
+        - Glover</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/12')">38
+        - Allen</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/11')">37
+        - Hurt</button> <button class="button" onclick="sendHttpRequest('http://127.0.0.1:8888/press/bank/3/10')">36
+        - Mendes</button> </div>
+    <script>
+    function sendHttpRequest(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.send();
+    }
+  </script>
+  </body>
+</html>

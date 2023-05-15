@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Council Agenda Interface</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border: 1px solid #ddd;
+		}
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<button onclick="loadCSV()">Load CSV</button>
+	<table id="council-agenda">
+		<thead>
+			<tr>
+				<th>Actions</th>
+				<th>File</th>
+				<th>Type</th>
+				<th>Title</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	<script type="text/javascript">
+		function loadCSV() {
+			$.getJSON("http://localhost:8000/councilagenda.csv", function(data) {
+				var table = $("#council-agenda tbody");
+				$.each(data, function(index, item) {
+					var row = $("<tr>");
+					var actions = $("<td>");
+					var assignBtn = $("<button>");
+					assignBtn.text("Assign to WebKeys");
+					assignBtn.click(function() {
+						chrome.runtime.sendMessage({
+							type: "sendText",
+							data: [item.File, item.Type, item.Title]
+						});
+					});
+					actions.append(assignBtn);
+					row.append(actions);
+					row.append($("<td>").text(item.File));
+					row.append($("<td>").text(item.Type));
+					row.append($("<td>").text(item.Title));
+					table.append(row);
+				});
+			});
+		}
+	</script>
+</body>
+</html>

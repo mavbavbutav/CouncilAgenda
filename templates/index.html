@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <title>Agenda Interface</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <style>
+  body {
+    background: linear-gradient(to right, gray, lightgray);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+	  font-size: 16px;
+  }
+  th {
+    background-color: #f2f2f2;
+    font-size: 18px;
+  }
+.assign-button {
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  background-color: #0066cc;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: inline-block; /* make the button inline */
+  margin-right: 1px; /* add some space between the buttons */
+}
+
+.assign-button:last-of-type {
+  margin-right: 0; /* remove the margin from the last button */
+}
+
+.assign-button:hover {
+  background-color: darkblue;
+	color: yellow;
+}
+  .container {
+    padding: 0px;
+  }
+       table {
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        padding: 5px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .assigned {
+        background-color: yellow;
+      }
+</style>
+    <script>
+const agendaItemDisplay = document.getElementById("agenda-item-display");
+let currentItem = "";
+
+function displayAgendaItem() {
+  setInterval(() => {
+    // Make an AJAX request to the /check_data endpoint
+    fetch("/check_data")
+      .then(response => response.json())
+      .then(data => {
+        // Update the currentItem variable and the HTML display
+        if (data.data !== currentItem) {
+          currentItem = data.data;
+          agendaItemDisplay.innerText = currentItem;
+        }
+      });
+  }, 1000);
+
+  agendaItemDisplay.innerText = currentItem;
+}
+
+$(document).ready(() => {
+  $('#file-input').on('change', function () {
+    const file = this.files[0];
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function () {
+      const parsedData = Papa.parse(reader.result, { header: true });
+      let table = '<table><thead><tr><th width="160px">Actions</th><th width="90px">Agenda #</th><th width="110px">File #</th><th>Type</th><th width="260px">Category</th><th>Title</th></tr></thead><tbody>';
+      let prevCategory = '';
+      const fileHeader = parsedData.meta.fields.find(header => header.toLowerCase().includes("file"));
+      const agendaHeader = parsedData.meta.fields.find(header => header.toLowerCase().includes("agenda"));
+      parsedData.data.forEach((row) => {
+        let actionsHtml = `<button class='assign-button' data-agenda='${row[agendaHeader]}' data-file='${row[fileHeader]}' data-type='${row.Type}' data-category='${prevCategory}' data-title='${row.Title}' data-key='WebKey 01'> 1 </button><button class='assign-button' data-agenda='${row[agendaHeader]}' data-file='${row[fileHeader]}' data-type='${row.Type}' data-category='${prevCategory}' data-title='${row.Title}' data-key='WebKey 02'> 2 </button>`;
+
+        if (row.Type !== '') {
+          actionsHtml += `<button class='assign-button' data-agenda='${row[agendaHeader]}' data-file='${row[fileHeader]}' data-type='${row.Type}' data-category='${prevCategory}' data-title='${row.Title}' data-key='WebKey 03'> 3 </button>`;
+        }
+
+        // add this if statement
+        if (row.Type === '') {
+          prevCategory = row.Title;
+        }
+
+        table += `<tr><td>${actionsHtml}</td><td>${row[agendaHeader]}</td><td>${row[fileHeader]}</td><td>${row.Type}</td><td>${prevCategory}</td><td>${row.Title}</td></tr>`;
+      });
+
+      table += '</tbody></table>';
+
+      $('#table-container').html(table);
+    };
+
+    reader.onerror = function () {
+      console.log('Unable to read CSV file');
+    };
+  });
+});
+
+$(document).on('click', '.assign-button', function () {
+  const file = $(this).data('file');
+  const type = $(this).data('type');
+  const title = $(this).data('title');
+  const agenda = $(this).data('agenda');
+  let category = $(this).data('category');
+  const key = $(this).data('key');
+  const $tr = $(this).closest('tr');
+  const isAssigned = $tr.hasClass('assigned');
+
+  // If the row is already assigned, unassign it
+  if (isAssigned) {
+    $tr.removeClass('assigned');
+  } else {
+    // Otherwise, assign the row
+    $tr.addClass('assigned');
+  }
+
+  // Send the selected text to Tricaster as WebKeys
+  const xhr1 = new XMLHttpRequest();
+  const xhr2 = new XMLHttpRequest();
+  const xhr3 = new XMLHttpRequest();
+  const xhr4 = new XMLHttpRequest();
+  const xhr5 = new XMLHttpRequest();
+  const xhr6 = new XMLHttpRequest();
+  let url1, url2, url3, url4, url5, url6;
+  url1 = `http://10.100.72.206/v1/datalink?key=WebKey 01&value=${file}`;
+  url2 = `http://10.100.72.206/v1/datalink?key=WebKey 02&value=${type.toUpperCase()}`;
+  url3 = `http://10.100.72.206/v1/datalink?key=WebKey 03&value=${title}`;
+  url5 = `http://10.100.72.206/v1/datalink?key=WebKey 04&value=${agenda}`;
+  if (type === '') {
+    url6 = `http://10.100.72.206/v1/datalink?key=WebKey 05&value=${title.toUpperCase()}`;
+  } else {
+    if (category === 'Consent Resolutions and Resolutions') {
+      url6 = "http://10.100.72.206/v1/datalink?key=WebKey 05&value=CONSENT RESOLUTIONS";
+    } else if (category === 'Bills on Introduction and First Reading') {
+      url6 = "http://10.100.72.206/v1/datalink?key=WebKey 05&value=BILLS ON INTRO AND FIRST READING";
+    } else {
+      category = category.toUpperCase();
+      url6 = `http://10.100.72.206/v1/datalink?key=WebKey 05&value=${category}`;
+    }
+  }
+  const urlMap = {
+    'WebKey 01': 'http://10.100.72.206/v1/shortcut?name=play_macro_byname&value=TIER1',
+    'WebKey 02': 'http://10.100.72.206/v1/shortcut?name=play_macro_byname&value=TIER2',
+    'WebKey 03': 'http://10.100.72.206/v1/shortcut?name=play_macro_byname&value=TIER3'
+  };
+  url4 = urlMap[key];
+  xhr1.open("GET", url1, true);
+  xhr2.open("GET", url2, true);
+  xhr3.open("GET", url3, true);
+  xhr4.open("GET", url4, true);
+  xhr5.open("GET", url5, true);
+  xhr6.open("GET", url6, true);
+  xhr1.send();
+  xhr2.send();
+  xhr3.send();
+  xhr4.send();
+  xhr5.send();
+  xhr6.send();
+});
+
+  </head>
+<body onload="displayAgendaItem()">
+    <div> <label for="file-input">Select CSV file:</label> <input
+        id="file-input" accept=".csv" type="file"> </div>
+	  <div id="agenda-item-display"></div>
+	<div id="table-container"></div>
+</body>
+</html>

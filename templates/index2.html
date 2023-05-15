@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Tricaster Controller</title>
+</head>
+<body>
+    <h1>Current Agenda Item: {{ agenda_item }}</h1>
+    <button onclick="sendWebKeys('{{ item_label }}')">Send WebKeys</button>
+
+    <script>
+        function sendWebKeys(itemLabel) {
+            // Use itemLabel to send the appropriate WebKeys to your Tricaster
+            console.log(`Sending WebKeys for ${itemLabel}`);
+        }
+    </script>
+</body>
+</html>

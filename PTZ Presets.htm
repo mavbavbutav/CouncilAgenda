@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>COUNCIL PTZ PRESETS</title>
+    <style>
+ /* Style the buttons */
+.header {
+  text-align: center;
+  color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+	border:thin;
+}
+    /* Style the grid */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+    }
+.cell-container {
+  display: flex;
+  flex-direction: column;
+	border: 1px solid gray;
+}
+
+ .button-container {
+      display: flex;
+      margin: 0 auto;
+    }
+.button-half {
+  height: 100%;
+  cursor: pointer;
+}
+
+.button-half:hover {
+	border-color: black;
+	background-color: orange;
+	color: white;
+}
+		.button-half:active {
+	border-color: white;
+	background-color: red;
+	color: white;
+}
+
+.button-label {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}
+
+.button-left {
+  border-top-left-radius: 90px;
+  border-bottom-left-radius: 90px;
+	padding: 15px 30px;
+}
+
+.button-right {
+  border-top-right-radius: 90px;
+  border-bottom-right-radius: 90px;
+	padding: 15px 30px;
+}
+  body {
+	background-image: linear-gradient(to bottom, slategray, black);
+}
+    </style>
+  </head>
+  <body>
+    <script>
+    function sendHttpRequest(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.send();
+    }
+		
+const councilData = [
+  { number: 35, name: 'Rosenberg', image: 'd35_rosenberg_dave.jpg', cam3page: 3, cam3button: 8, cam4page: 5, cam4button: 8},
+  { number: 34, name: 'Henderson', image: 'd34_henderson_angie.jpg', cam3page: 3, cam3button: 7, cam4page: 5, cam4button: 7},
+  { number: 33, name: 'Lee', image: 'd33_lee_antoinette.jpg', cam3page: 3, cam3button: 6, cam4page: 5, cam4button: 6},
+  { number: 32, name: 'Styles', image: 'd32_styles_joy.jpg', cam3page: 3, cam3button: 5, cam4page: 5, cam4button: 5},
+  { number: 31, name: 'Rutherford', image: 'd31_rutherford_john.jpg', cam3page: 3, cam3button: 4, cam4page: 5, cam4button:  4},
+  { number: 30, name: 'Sepulveda', image: 'd30_sepulveda_sandra.jpg', cam3page: 3, cam3button: 3, cam4page: 5, cam4button:  3},
+  { number: 29, name: 'Porterfield', image: 'd29_porterfield_delishia.jpg', cam3page: 3, cam3button: 2, cam4page: 5, cam4button: 2},
+  { number: 28, name: 'Vercher', image: 'd28_vercher_tanaka.jpg', cam3page: 2, cam3button: 32, cam4page: 4, cam4button: 32 },
+  { number: 27, name: 'Nash', image: 'd27_nash_bob.jpg', cam3page: 2, cam3button: 31, cam4page: 4, cam4button: 31 },
+  { number: 26, name: 'Johnston', image: 'd26_johnston_courtney.jpg', cam3page: 2, cam3button: 30, cam4page: 4, cam4button: 30 },
+  { number: 25, name: 'Pulley', image: 'd25_pulley_russ.jpg', cam3page: 2, cam3button: 29, cam4page: 4, cam4button: 29 },
+  { number: 24, name: 'Murphy', image: 'd24_murphy_kathleen.jpg', cam3page: 2, cam3button: 28, cam4page: 4, cam4button: 28 },
+  { number: 23, name: 'Druffel', image: 'd23_druffel_thom.jpg', cam3page: 2, cam3button: 27, cam4page: 4, cam4button: 27 },
+  { number: 22, name: 'Hausser', image: 'd22_hausser_gloria.jpg', cam3page: 2, cam3button: 26, cam4page: 4, cam4button: 26 },
+  { number: 21, name: 'Taylor', image: 'd21_taylor_brandon.jpg', cam3page: 2, cam3button: 24, cam4page: 4, cam4button: 24 },
+  { number: 20, name: 'Roberts', image: 'd20_roberts_mary.jpg', cam3page: 2, cam3button: 23, cam4page: 4, cam4button: 23 },
+  { number: 19, name: 'O\'Connell', image: 'd19_oconnell_freddie.jpg', cam3page: 2, cam3button: 22, cam4page: 4, cam4button: 22 },
+  { number: 18, name: 'Cash', image: 'd18_cash_tom.jpg', cam3page: 2, cam3button: 21, cam4page: 4, cam4button: 21 },
+  { number: 17, name: 'Sledge', image: 'd17_sledge_colby.jpg', cam3page: 2, cam3button: 20, cam4page: 4, cam4button: 20 },
+  { number: 16, name: 'Welsch', image: 'd16_welsch_ginny.jpg', cam3page: 2, cam3button: 19, cam4page: 4, cam4button: 19 },
+  { number: 15, name: 'Syracuse', image: 'd15_syracuse_jeff.jpg', cam3page: 2, cam3button: 18, cam4page: 4, cam4button: 18 },
+  { number: 14, name: 'Rhoten', image: 'd14_rhoten_kevin.jpg', cam3page: 2, cam3button: 16, cam4page: 4, cam4button: 16 },
+  { number: 13, name: 'Bradford', image: 'd13_bradford_russ.jpg', cam3page: 2, cam3button: 15, cam4page: 4, cam4button: 15 },
+  { number: 12, name: 'Evans', image: 'd12_evans_erin.jpg', cam3page: 2, cam3button: 14, cam4page: 4, cam4button: 14 },
+  { number: 11, name: 'Hagar', image: 'd11_hagar_larry.jpg', cam3page: 2, cam3button: 13, cam4page: 4, cam4button: 13 },
+  { number: 10, name: 'Young', image: 'd10_young_zach.jpg', cam3page: 2, cam3button: 12, cam4page: 4, cam4button: 12 },
+  { number: 9, name: 'Hancock', image: 'd09_hancock_tonya.jpg', cam3page: 2, cam3button: 11, cam4page: 4, cam4button: 11 },
+  { number: 8, name: 'VanReece', image: 'd08_vanreece_nancy.jpg', cam3page: 2, cam3button: 10, cam4page: 4, cam4button: 9 },
+  { number: 7, name: 'Benedict', image: 'd07_benedict_emily.jpg', cam3page: 2, cam3button: 8, cam4page: 4, cam4button: 8 },
+  { number: 6, name: 'Withers', image: 'd06_withers_brett.jpg', cam3page: 2, cam3button: 7, cam4page: 4, cam4button: 7 },
+  { number: 5, name: 'Parker', image: 'd05_parker_sean.jpg', cam3page: 2, cam3button: 6, cam4page: 4, cam4button: 6 },
+  { number: 4, name: 'Swope', image: 'd04_swope_robert.jpg', cam3page: 2, cam3button: 5, cam4page: 4, cam4button: 5 },
+  { number: 3, name: 'Gamble', image: 'd03_gamble_jennifer.jpg', cam3page: 2, cam3button: 4, cam4page: 4, cam4button: 4 },
+  { number: 2, name: 'Toombs', image: 'd02_toombs_kyontze.jpg', cam3page: 2, cam3button: 3, cam4page: 4, cam4button: 3 },
+  { number: 1, name: 'Hall', image: 'd01_hall_jonathan.jpg', cam3page: 2, cam3button: 2, cam4page: 4, cam4button: 2 },
+  { number: 'At Large', name: 'Suara', image: 'al_suara_zulfat.jpg', cam3page: 3, cam3button: 14, cam4page: 4, cam4button: 14 },
+	{ number: 'At Large', name: 'EMPTY', image: 'empty.jpg', cam3page: 3, cam3button: 13, cam4page: 4, cam4button: 13 },
+  { number: 'At Large', name: 'Allen', image: 'al_allen_burkley.jpg', cam3page: 3, cam3button: 12, cam4page: 4, cam4button: 12 },
+  { number: 'At Large', name: 'Hurt', image: 'al_hurt_sharon.jpg', cam3page: 3, cam3button: 11, cam4page: 5, cam4button: 11 },
+  { number: 'At Large', name: 'Mendes', image: 'al_mendes_bob.jpg', cam3page: 3, cam3button: 10, cam4page: 5, cam4button: 10 }
+  // Add more council data here for each button
+];
+
+
+const buttonContainer = document.createElement('div');
+buttonContainer.style.display = 'grid';
+buttonContainer.style.gridTemplateColumns = 'repeat(8, 1fr)';
+buttonContainer.style.gridTemplateRows = 'repeat(5, 1fr)';
+document.body.appendChild(buttonContainer);
+
+	// create the dropdown menu
+const select = document.createElement('select');
+select.style.margin = '0px';
+select.addEventListener('change', () => {
+  const option = select.options[select.selectedIndex].value;
+  switch (option) {
+    case 'original':
+      sortDataByOriginal();
+      break;
+    case 'alphabetical':
+      sortDataAlphabetically();
+      break;
+    case 'numerical':
+      sortDataByNumber();
+      break;
+    default:
+      console.log(`Invalid option selected: ${option}`);
+  }
+});
+
+const defaultOption = document.createElement('option');
+defaultOption.value = 'default';
+defaultOption.text = 'Sort by...';
+defaultOption.disabled = true;
+defaultOption.selected = true;
+
+const originalOption = document.createElement('option');
+originalOption.value = 'original';
+originalOption.text = 'Original';
+
+const alphabeticalOption = document.createElement('option');
+alphabeticalOption.value = 'alphabetical';
+alphabeticalOption.text = 'Alphabetical';
+
+const numericalOption = document.createElement('option');
+numericalOption.value = 'numerical';
+numericalOption.text = 'Numerical';
+
+select.appendChild(defaultOption);
+select.appendChild(originalOption);
+select.appendChild(alphabeticalOption);
+select.appendChild(numericalOption);
+
+document.body.appendChild(select);
+document.body.appendChild(buttonContainer);
+
+function sortDataByOriginal() {
+  buttonContainer.innerHTML = '';
+  for (let i = 0; i < 40; i++) {
+    const council = councilData[i];
+    const buttonContainerInner = createButtonContainerInner(council);
+    const row = Math.floor(i / 8) + 1;
+    const col = i % 8 + 1;
+    buttonContainerInner.style.gridRow = row;
+    buttonContainerInner.style.gridColumn = col;
+    buttonContainer.appendChild(buttonContainerInner);
+  }
+}
+
+function sortDataAlphabetically() {
+  buttonContainer.innerHTML = '';
+  const sortedCouncilData = [...councilData].sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+  for (let i = 0; i < 40; i++) {
+    const council = sortedCouncilData[i];
+    const buttonContainerInner = createButtonContainerInner(council);
+    const row = Math.floor(i / 8) + 1;
+    const col = i % 8 + 1;
+    buttonContainerInner.style.gridRow = row;
+    buttonContainerInner.style.gridColumn = col;
+    buttonContainer.appendChild(buttonContainerInner);
+  }
+}
+
+function sortDataByNumber() {
+  buttonContainer.innerHTML = '';
+  const sortedCouncilData = [...councilData].sort((a, b) => {
+    return a.number - b.number;
+  });
+  for (let i = 0; i < 40; i++) {
+    const council = sortedCouncilData[i];
+    const buttonContainerInner = createButtonContainerInner(council);
+    const row = Math.floor(i / 8) + 1;
+    const col = i % 8 + 1;
+    buttonContainerInner.style.gridRow = row;
+    buttonContainerInner.style.gridColumn = col;
+    buttonContainer.appendChild(buttonContainerInner);
+  }
+}
+	function createButtonContainerInner(council) {
+  const buttonContainerInner = document.createElement('div');
+  buttonContainerInner.classList.add('cell-container');
+
+  const header = document.createElement('div');
+  header.classList.add('header');
+  const headerTitle = document.createElement('h2');
+  headerTitle.style.margin = '0';
+  headerTitle.style.padding = '0';
+  headerTitle.textContent = `${council.number} - ${council.name}`;
+  const headerImage = document.createElement('img');
+  headerImage.src = `Council Pictures/${council.image}`;
+  headerImage.height = '120';
+  headerImage.alt = '';
+		headerImage.border = '2';
+		headerImage.style.borderColor = 'black';
+
+  header.appendChild(headerTitle);
+  header.appendChild(headerImage);
+  buttonContainerInner.appendChild(header);
+
+  const buttonContainerInner2 = document.createElement('div');
+  buttonContainerInner2.classList.add('button-container');
+  const buttonLeft = document.createElement('button');
+  buttonLeft.classList.add('button-half');
+  buttonLeft.classList.add('button-left');
+  buttonLeft.addEventListener('click', () => {
+    const url = `http://127.0.0.1:8888/press/bank/${council.cam3page}/${council.cam3button}`;
+    sendHttpRequest(url);
+  });
+  const buttonLeftLabel = document.createElement('div');
+  buttonLeftLabel.classList.add('button-label');
+  buttonLeftLabel.textContent = 'CAM 3';
+  buttonLeft.appendChild(buttonLeftLabel);
+
+  const buttonRight = document.createElement('button');
+  buttonRight.classList.add('button-half');
+  buttonRight.classList.add('button-right');
+  buttonRight.addEventListener('click', () => {
+    const url = `http://127.0.0.1:8888/press/bank/${council.cam4page}/${council.cam4button}`;
+    sendHttpRequest(url);
+  });
+  const buttonRightLabel = document.createElement('div');
+  buttonRightLabel.classList.add('button-label');
+  buttonRightLabel.textContent = 'CAM 4';
+  buttonRight.appendChild(buttonRightLabel);
+
+  buttonContainerInner2.appendChild(buttonLeft);
+  buttonContainerInner2.appendChild(buttonRight);
+  buttonContainerInner.appendChild(buttonContainerInner2);
+
+  return buttonContainerInner;
+}
+		sortDataByOriginal();
+		
+
+</script>
+  </body>
+</html>

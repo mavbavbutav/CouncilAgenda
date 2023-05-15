@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Speech Recognition</title>
+</head>
+<body>
+	<h1>Speech Recognition Test</h1>
+	<button id="start-btn">Start Recognition</button>
+	<input type="text" id="textbox" size="200">
+	<script>
+		var recognition = new webkitSpeechRecognition();
+		recognition.continuous = true;
+		recognition.interimResults = true;
+		recognition.lang = "en-US";
+		recognition.maxAlternatives = 1;
+		recognition.grammars = new webkitSpeechGrammarList();
+		recognition.grammars.addFromString('#JSGF V1.0; grammar colors; public <color> = blue | red | green ;', 1);
+		recognition.maxSpeechTime = 5000; // stop recognition after 5 seconds
+		var textbox = document.getElementById("textbox");
+
+		document.getElementById("start-btn").addEventListener("click", function(){
+			recognition.start();
+		});
+
+		recognition.onresult = function(event) {
+			var color = "";
+			for (var i = event.resultIndex; i < event.results.length; i++) {
+				var transcript = event.results[i][0].transcript.trim();
+				if (event.results[i].isFinal && transcript.length > 0) {
+					if (transcript === "blue" || transcript === "red" || transcript === "green") {
+						color = transcript;
+						break;
+					}
+				}
+			}
+			if (color.length > 0) {
+				textbox.value = color;
+			}
+		};
+
+		recognition.onerror = function(event) {
+			console.log("Speech recognition error detected: ", event.error);
+		};
+	</script>
+</body>
+</html>
